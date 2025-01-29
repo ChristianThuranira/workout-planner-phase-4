@@ -1,23 +1,16 @@
-#!/usr/bin/env python3
+from flask import Flask, jsonify
+from flask_migrate import Migrate
+from models import db, User, Exercise, Day, WorkoutPlan, Log
 
-# Standard library imports
-
-# Remote library imports
-from flask import request
-from flask_restful import Resource
-
-# Local imports
-from config import app, db, api
-# Add your model imports
-
-
-# Views go here!
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///fitness.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
+migrate = Migrate(app, db)
 
 @app.route('/')
-def index():
-    return '<h1>Project Server</h1>'
-
+def home():
+    return jsonify({"message": "Welcome to the Fitness App API"})
 
 if __name__ == '__main__':
-    app.run(port=5555, debug=True)
-
+    app.run(debug=True)
