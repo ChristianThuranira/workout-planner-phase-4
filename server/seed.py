@@ -1,5 +1,6 @@
 from app import app
-from models import db, User, Exercise, Day, WorkoutPlan, Log
+from extensions import db
+from models import User, Exercise, Day, WorkoutPlan, Log
 from datetime import datetime, date
 
 with app.app_context():
@@ -37,19 +38,7 @@ with app.app_context():
         user_id=user1.id,
         day_id=day1.id
     )
-    workout2 = WorkoutPlan(
-        title='Evening Workout',
-        description='An intense evening session',
-        difficulty_level='Advanced',
-        time=datetime.now(),
-        duration_minutes=60,
-        calories_burned=500,
-        exercise_id=exercise2.id,
-        user_id=user2.id,
-        day_id=day2.id
-    )
     db.session.add(workout1)
-    db.session.add(workout2)
 
     # Add Logs
     log1 = Log(
@@ -58,14 +47,7 @@ with app.app_context():
         notes='Great workout!',
         workout_id=workout1.id
     )
-    log2 = Log(
-        completed_date=date.today(),
-        rating=4,
-        notes='Feeling good!',
-        workout_id=workout2.id
-    )
     db.session.add(log1)
-    db.session.add(log2)
 
     # Commit changes
     db.session.commit()
