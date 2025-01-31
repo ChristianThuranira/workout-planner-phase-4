@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
 
-# Initialize the database object
 db = SQLAlchemy()
+ma = Marshmallow()
