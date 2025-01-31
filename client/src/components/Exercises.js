@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Pagination from '@mui/material/Pagination';
 import { Box, Stack, Typography } from '@mui/material';
-
-import { exerciseOptions, fetchData } from '../utils/fetchData';
+import { fetchData } from '../utils/fetchData';
 import ExerciseCard from './ExerciseCard';
 import Loader from './Loader';
 
@@ -15,9 +14,9 @@ const Exercises = ({ exercises, setExercises, bodyPart }) => {
       let exercisesData = [];
 
       if (bodyPart === 'all') {
-        exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises', exerciseOptions);
+        exercisesData = await fetchData('http://localhost:5000/api/exercises');
       } else {
-        exercisesData = await fetchData(`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`, exerciseOptions);
+        exercisesData = await fetchData(`http://localhost:5000/api/exercises?bodyPart=${bodyPart}`);
       }
 
       setExercises(exercisesData);
@@ -26,15 +25,14 @@ const Exercises = ({ exercises, setExercises, bodyPart }) => {
     fetchExercisesData();
   }, [bodyPart]);
 
-  // Pagination
+  // Pagination logic
   const indexOfLastExercise = currentPage * exercisesPerPage;
   const indexOfFirstExercise = indexOfLastExercise - exercisesPerPage;
   const currentExercises = exercises.slice(indexOfFirstExercise, indexOfLastExercise);
 
   const paginate = (event, value) => {
     setCurrentPage(value);
-
-    window.scrollTo ({  top: 1800, behavior: 'smooth' });
+    window.scrollTo({ top: 1800, behavior: 'smooth' });
   };
 
   if (!currentExercises.length) return <Loader />;
@@ -65,4 +63,3 @@ const Exercises = ({ exercises, setExercises, bodyPart }) => {
 };
 
 export default Exercises;
-
